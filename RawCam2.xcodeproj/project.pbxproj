@@ -13,7 +13,51 @@
 		FA5920B2285334BB0036DD35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5920B0285334BB0036DD35 /* Main.storyboard */; };
 		FA5920B4285334C00036DD35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA5920B3285334C00036DD35 /* Assets.xcassets */; };
 		FA5920B7285334C00036DD35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA5920B5285334C00036DD35 /* LaunchScreen.storyboard */; };
+		FA5920C528545A6F0036DD35 /* GrayFilterKernel.ci.metal in Sources */ = {isa = PBXBuildFile; fileRef = FA5920C428545A6F0036DD35 /* GrayFilterKernel.ci.metal */; };
+		FA5920C728545B250036DD35 /* GrayFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5920C628545B250036DD35 /* GrayFilter.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		FA5920C0285459550036DD35 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = " *.ci.metal";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/${INPUT_FILE_BASE}.air",
+			);
+			runOncePerArchitecture = 0;
+			script = "xcrun metal -c -fcikernel \"${INPUT_FILE_PATH}\" -o \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+		FA5920C2285459E80036DD35 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.ci.air";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(METAL_LIBRARY_OUTPUT_DIR)/$(INPUT_FILE_BASE).metallib",
+			);
+			runOncePerArchitecture = 0;
+			script = "xcrun metallib -cikernel \"${INPUT_FILE_PATH}\" -o \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+		FA5920C8285467890036DD35 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = file.rcproject;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# rctool\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
 		FA5920A7285334BB0036DD35 /* RawCam2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RawCam2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,6 +68,8 @@
 		FA5920B3285334C00036DD35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA5920B6285334C00036DD35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA5920B8285334C00036DD35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA5920C428545A6F0036DD35 /* GrayFilterKernel.ci.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = GrayFilterKernel.ci.metal; sourceTree = "<group>"; };
+		FA5920C628545B250036DD35 /* GrayFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrayFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +83,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA4912BC28585FD200EC8291 /* CameraComponent */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CameraComponent;
+			sourceTree = "<group>";
+		};
 		FA59209E285334BB0036DD35 = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +109,8 @@
 		FA5920A9285334BB0036DD35 /* RawCam2 */ = {
 			isa = PBXGroup;
 			children = (
+				FA4912BC28585FD200EC8291 /* CameraComponent */,
+				FA5920C328545A2E0036DD35 /* Filters */,
 				FA5920AA285334BB0036DD35 /* AppDelegate.swift */,
 				FA5920AC285334BB0036DD35 /* SceneDelegate.swift */,
 				FA5920AE285334BB0036DD35 /* ViewController.swift */,
@@ -65,6 +120,15 @@
 				FA5920B8285334C00036DD35 /* Info.plist */,
 			);
 			path = RawCam2;
+			sourceTree = "<group>";
+		};
+		FA5920C328545A2E0036DD35 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				FA5920C428545A6F0036DD35 /* GrayFilterKernel.ci.metal */,
+				FA5920C628545B250036DD35 /* GrayFilter.swift */,
+			);
+			path = Filters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -79,6 +143,9 @@
 				FA5920A5285334BB0036DD35 /* Resources */,
 			);
 			buildRules = (
+				FA5920C8285467890036DD35 /* PBXBuildRule */,
+				FA5920C2285459E80036DD35 /* PBXBuildRule */,
+				FA5920C0285459550036DD35 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -140,7 +207,9 @@
 			files = (
 				FA5920AF285334BB0036DD35 /* ViewController.swift in Sources */,
 				FA5920AB285334BB0036DD35 /* AppDelegate.swift in Sources */,
+				FA5920C528545A6F0036DD35 /* GrayFilterKernel.ci.metal in Sources */,
 				FA5920AD285334BB0036DD35 /* SceneDelegate.swift in Sources */,
+				FA5920C728545B250036DD35 /* GrayFilter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,16 +359,21 @@
 				DEVELOPMENT_TEAM = CS5WPZ3L8J;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RawCam2/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "to get cmarea view";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MTLLINKER_FLAGS = "";
+				MTL_COMPILER_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = shashimal.RawCam2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -318,16 +392,20 @@
 				DEVELOPMENT_TEAM = CS5WPZ3L8J;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RawCam2/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "to get cmarea view";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MTL_COMPILER_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = shashimal.RawCam2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
